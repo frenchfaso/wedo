@@ -60,5 +60,4 @@ function TaskVM() {
 
 document.addEventListener('alpine:init', () => {
     Alpine.store('activeView', 'lists')
-    let gun = Gun()
 })
