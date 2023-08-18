@@ -1,19 +1,24 @@
-const db = Gun()
+const db = Gun() // need a relay to sync between clients
 
-function ListVM() {
-    return {
+document.addEventListener('alpine:init', () => {
+
+    Alpine.store('activeView', 'lists');
+
+    Alpine.data('ListVM', () => ({
         newList: '',
         listItem: {},
         lists: [],
-        dbLists: null,
+        // dbLists: null,
 
         init() {
-            this.dbLists = db.get('lists')
-            this.dbLists.map().on((list, id) => {
-                this.lists.push({
-                    id: id,
-                    name: list
-                })
+            db.get('lists').on((lists, id) => {
+                for (let [key, value] of Object.entries(lists)) {
+                    console.log(key, value);
+                }
+                // this.lists.push({
+                //     id: id,
+                //     name: list
+                // })
             });
         },
 
@@ -24,24 +29,24 @@ function ListVM() {
                 //     id: Date.now(),
                 //     name: name
                 // });
-                this.dbLists.set(name)
+                db.get('lists').set(name)
                 this.newList = ''
             }
         },
         removeList(id) {
             // this.lists = this.lists.filter(list => list.id !== id)
-            this.dbLists.get(id).put(null)
             console.log(id)
+            let lists = db.get('lists')
+            let item = lists.get(id)
+            this.lists.unset(item)
         },
         selectList(id) {
             Alpine.store('currentList', id)
             Alpine.store('activeView', 'tasks')
         }
-    }
-}
+    }));
 
-function TaskVM() {
-    return {
+    Alpine.data('TaskVM', () => ({
         newTask: '',
         taskItem: {},
         tasks: [],
@@ -71,9 +76,6 @@ function TaskVM() {
         get currentTasks() {
             return this.tasks.filter(task => task.listId === Alpine.store('currentList'))
         }
-    }
-}
+    }));
 
-document.addEventListener('alpine:init', () => {
-    Alpine.store('activeView', 'lists')
 })
