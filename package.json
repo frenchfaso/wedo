@@ -1,0 +1,37 @@
+{
+  "name": "WeDo",
+  "version": "1.0.0",
+  "description": "The ToDo App that syncs heart",
+  "main": "wedo.js",
+  "scripts": {
+    "build": "shx cp node_modules/alpinejs/dist/cdn.min.js js/ && cp node_modules/localforage/dist/localforage.min.js js/ && cp node_modules/peerjs/dist/peerjs.min.js js/ && cp node_modules/gun/gun.min.js js/",
+    "start": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frenchfaso/wedo.git"
+  },
+  "keywords": [
+    "todo",
+    "pwa",
+    "spa",
+    "love"
+  ],
+  "author": "@frenchfaso",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/frenchfaso/wedo/issues"
+  },
+  "homepage": "https://github.com/frenchfaso/wedo#readme",
+  "dependencies": {
+    "alpinejs": "^3.12.3",
+    "gun": "^0.2020.1239",
+    "localforage": "^1.10.0",
+    "peerjs": "^1.4.7"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "shx": "^0.3.4"
+  }
+}

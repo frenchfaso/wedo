@@ -1,16 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="heart.png">
-    <link rel="stylesheet" href="sakura.css" type="text/css">
-    <script defer src="alpine_cdn.min.js"></script>
-    <title>LoveDo ❤️</title>
+    <link rel="stylesheet" href="css/sakura.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/sakura-dark.css" type="text/css" media="screen and (prefers-color-scheme: dark)">
+    <script defer src="js/wedo.js"></script>
+    <script defer src="js/cdn.min.js"></script>
+    <script defer src="js/localforage.min.js"></script>
+    <script defer src="js/peerjs.min.js"></script>
+    <script defer src="js/gun.min.js"></script>
+    <title>WeDo ❤️</title>
+    <style>
+        tr:hover {
+            filter: invert();
+            cursor: pointer;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            tr:hover {
+                filter: invert();
+            }
+        }
+
+        .flex-container {
+            padding: 0px;
+            margin: 0px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .right-aligned {
+            margin-left: auto;
+        }
+    </style>
 </head>
+
 <body>
-    <!-- Your content goes here -->
-    <h1 x-data="{ message: 'LoveDo' }" x-text="message"></h1>
-    <h4 x-data="{ message: 'The ToDo App for Happy Wives ❤️' }" x-text="message"></h4>
+    <h3>WeDo</h3>
+    <h5>The ToDo App that Syncs ❤️</h5>
+    <hr>
+    <div>
+        <div x-data="ListVM" x-show="$store.activeView === 'lists'" x-transition>
+            <input x-model="newList" @keyup.enter="addList" type="text" placeholder="My List" id="newLabelInput"/>
+            <button @click="addList">+</button>
+            <table>
+                <tbody>
+                    <template x-for="(list, index) in lists" :key="index">
+                        <tr @click="selectList(list.id)">
+                            <!-- <td x-text="index"></td> -->
+                            <td>
+                                <a x-text="list.name"></a>
+                            </td>
+                            <!-- <td x-text="list.id"></td> -->
+                            <td style="text-align: right;">
+                                <button @click.stop="$dispatch('delete-list', list.id); removeList(list.id)">-</button>
+                            </td>
+                        </tr>
+                    </template>
+
+                </tbody>
+            </table>
+        </div>
+        <div x-data="TaskVM" x-show="$store.activeView === 'tasks'" x-transition @delete-list.window="removeTasksByListId($event.detail)">
+            <div class="flex-container">
+                <input x-model="newTask" @keyup.enter="addTask" type="text" id="newTaskInput"/>
+                <button @click="addTask">+</button>
+                <button @click="$store.activeView = 'lists'" class="right-aligned"><-</button>
+            </div>
+            <table>
+                <tbody>
+                    <template x-for="(task, index) in currentTasks" :key="index">
+                        <tr @click="toggleTask(index)">
+                            <!-- <td x-text="index"></td> -->
+                            <td>
+                                <a x-text="task.name"></a>
+                            </td>
+                            <!-- <td x-text="list.id"></td> -->
+                            <td style="text-align: right;">
+                                <button @click="removeTask(task.id)">-</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
+
 </html>
