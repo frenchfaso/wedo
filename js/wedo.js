@@ -1,4 +1,4 @@
-const db = Gun(['http://localhost:8765/gun']); // 'https://gun-manhattan.herokuapp.com/gun'
+const db = Gun(['http://karonte.local:8765/gun']); // 'https://gun-manhattan.herokuapp.com/gun'
 
 document.addEventListener('alpine:init', () => {
 
@@ -10,10 +10,13 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             db.get('lists').map().on((list, id) => {
-                this.lists.push({
-                    id: id,
-                    name: list
-                })
+                if (this.lists.some(item => item.id === id)) {
+                    console.log(list, id)
+                    this.lists.push({
+                        id: id,
+                        name: list.name
+                    })
+                }
             });
         },
 
