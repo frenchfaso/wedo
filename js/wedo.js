@@ -1,4 +1,4 @@
-const db = Gun() // need a relay to sync between clients
+const db = Gun(['http://localhost:8765/gun']); // 'https://gun-manhattan.herokuapp.com/gun'
 
 document.addEventListener('alpine:init', () => {
 
@@ -6,24 +6,23 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.data('ListVM', () => ({
         newList: '',
-        lists: {},
+        lists: [],
 
         init() {
-            db.get('lists').on((lists, id) => {
-                this.lists = lists
-                // for (let [key, value] of Object.entries(lists)) {
-                //     this.lists.push({
-                //         id: key,
-                //         name: value
-                //     })
-                // }
+            db.get('lists').map().on((lists, id) => {
+                this.lists.push({
+                    id: id,
+                    name: list
+                })
             });
         },
 
         addList() {
             let name = this.newList.trim()
             if (name !== '') {
-                db.get('lists').set(name)
+                db.get('lists').set({
+                    name: name
+                })
                 this.newList = ''
             }
         },
