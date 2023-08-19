@@ -9,7 +9,7 @@ document.addEventListener('alpine:init', () => {
         lists: [],
 
         init() {
-            db.get('lists').map().on((lists, id) => {
+            db.get('lists').map().on((list, id) => {
                 this.lists.push({
                     id: id,
                     name: list
@@ -27,11 +27,7 @@ document.addEventListener('alpine:init', () => {
             }
         },
         removeList(id) {
-            // this.lists = this.lists.filter(list => list.id !== id)
             console.log('remove:', id)
-            // let lists = db.get('lists')
-            // let item = lists.get(id)
-            // this.lists.unset(item)
         },
         selectList(id) {
             Alpine.store('currentList', id)
