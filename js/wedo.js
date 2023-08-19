@@ -10,8 +10,8 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             db.get('lists').map().on((list, id) => {
-                if (this.lists.some(item => item.id === id)) {
-                    console.log(list, id)
+                // if (this.lists.find(elem => elem.id === id) === undefined) {
+                if (!this.lists.some(el => el.id === id)) {
                     this.lists.push({
                         id: id,
                         name: list.name
