@@ -6,39 +6,33 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.data('ListVM', () => ({
         newList: '',
-        listItem: {},
-        lists: [],
-        // dbLists: null,
+        lists: {},
 
         init() {
             db.get('lists').on((lists, id) => {
-                for (let [key, value] of Object.entries(lists)) {
-                    console.log(key, value);
-                }
-                // this.lists.push({
-                //     id: id,
-                //     name: list
-                // })
+                this.lists = lists
+                // for (let [key, value] of Object.entries(lists)) {
+                //     this.lists.push({
+                //         id: key,
+                //         name: value
+                //     })
+                // }
             });
         },
 
         addList() {
             let name = this.newList.trim()
             if (name !== '') {
-                // this.lists.push({
-                //     id: Date.now(),
-                //     name: name
-                // });
                 db.get('lists').set(name)
                 this.newList = ''
             }
         },
         removeList(id) {
             // this.lists = this.lists.filter(list => list.id !== id)
-            console.log(id)
-            let lists = db.get('lists')
-            let item = lists.get(id)
-            this.lists.unset(item)
+            console.log('remove:', id)
+            // let lists = db.get('lists')
+            // let item = lists.get(id)
+            // this.lists.unset(item)
         },
         selectList(id) {
             Alpine.store('currentList', id)
