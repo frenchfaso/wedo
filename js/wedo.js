@@ -1,4 +1,4 @@
-const db = Gun(['http://karonte.local:8765/gun']); // 'https://gun-manhattan.herokuapp.com/gun'
+const db = Gun(); // 'https://gun-manhattan.herokuapp.com/gun'
 
 document.addEventListener('alpine:init', () => {
 
@@ -11,12 +11,18 @@ document.addEventListener('alpine:init', () => {
         init() {
             db.get('lists').map().on((list, id) => {
                 // if (this.lists.find(elem => elem.id === id) === undefined) {
-                if (!this.lists.some(el => el.id === id)) {
-                    this.lists.push({
-                        id: id,
-                        name: list.name
-                    })
+                if (list) {
+                    if (!this.lists.some(el => el.id === id)) {
+                        this.lists.push({
+                            id: id,
+                            name: list.name
+                        })
+                    }
                 }
+                else {
+                    this.lists = this.lists.filter(item => item.id !== id)
+                }
+
             });
         },
 
@@ -31,6 +37,7 @@ document.addEventListener('alpine:init', () => {
         },
         removeList(id) {
             console.log('remove:', id)
+            db.get('lists').get(id).put(null)
         },
         selectList(id) {
             Alpine.store('currentList', id)
