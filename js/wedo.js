@@ -1,4 +1,4 @@
-const db = Gun(); // 'https://gun-manhattan.herokuapp.com/gun'
+const db = Gun(['https://raspberrypi.local:8765/gun/']); // 'https://gun-manhattan.herokuapp.com/gun'
 
 document.addEventListener('alpine:init', () => {
 

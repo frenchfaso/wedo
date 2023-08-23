@@ -1,0 +1,10 @@
+{
+    "https": {
+      "key": "./key.pem",
+      "cert": "./cert.pem"
+    },
+    "server": {
+      "baseDir": "./"
+    }
+  }
+  
