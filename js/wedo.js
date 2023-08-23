@@ -1,4 +1,4 @@
-const db = Gun(['https://raspberrypi.local:8765/gun/']); // 'https://gun-manhattan.herokuapp.com/gun'
+const db = Gun(['http://raspberrypi.local:8765/gun']); // 'https://gun-manhattan.herokuapp.com/gun'
 
 document.addEventListener('alpine:init', () => {
 
@@ -10,12 +10,11 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             db.get('lists').map().on((list, id) => {
-                // if (this.lists.find(elem => elem.id === id) === undefined) {
                 if (list) {
                     if (!this.lists.some(el => el.id === id)) {
                         this.lists.push({
                             id: id,
-                            name: list.name
+                            name: list //list.name
                         })
                     }
                 }
@@ -29,9 +28,10 @@ document.addEventListener('alpine:init', () => {
         addList() {
             let name = this.newList.trim()
             if (name !== '') {
-                db.get('lists').set({
-                    name: name
-                })
+                db.get('lists').set(name)
+                // db.get('lists').set({
+                //     name: name
+                // })
                 this.newList = ''
             }
         },
@@ -40,8 +40,12 @@ document.addEventListener('alpine:init', () => {
             db.get('lists').get(id).put(null)
         },
         selectList(id) {
-            Alpine.store('currentList', id)
-            Alpine.store('activeView', 'tasks')
+            if(Alpine.store('currentList') === id){
+                Alpine.store('currentList', '')
+            }
+            else{
+                Alpine.store('currentList', id)
+            }
         }
     }));
 

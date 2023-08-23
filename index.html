@@ -11,18 +11,16 @@
     <script defer src="js/unset.js"></script>
     <script defer src="js/wedo.js"></script>
     <script defer src="js/cdn.min.js"></script>
-    <script defer src="js/localforage.min.js"></script>
-    <script defer src="js/peerjs.min.js"></script>
     <title>WeDo ❤️</title>
     <style>
         tr:hover {
-            filter: invert();
+            /* filter: invert(); */
             cursor: pointer;
         }
 
         @media (prefers-color-scheme: dark) {
             tr:hover {
-                filter: invert();
+                /* filter: invert(); */
             }
         }
 
@@ -44,49 +42,41 @@
     <h5>The ToDo App that Syncs ❤️</h5>
     <hr>
     <div>
-        <div x-data="ListVM" x-show="$store.activeView === 'lists'" x-transition>
-            <input x-model="newList" @keyup.enter="addList" type="text" placeholder="My List" id="newLabelInput"/>
+        <div x-data="ListVM" @delete-list.window="removeTasksByListId($event.detail)">
+            <input x-model="newList" @keyup.enter="addList" type="text" placeholder="My List" id="newLabelInput" />
             <button @click="addList">+</button>
-            <table>
-                <tbody>
-                    <template x-for="(list, index) in lists" :key="index">
+            <template x-for="(list, index) in lists" :key="index">
+                <table>
+                    <thead>
                         <tr @click="selectList(list.id)">
-                            <!-- <td x-text="index"></td> -->
-                            <td>
-                                <a x-text="list.name"></a>
-                            </td>
-                            <!-- <td x-text="list.id"></td> -->
-                            <td style="text-align: right;">
+                            <th x-text="list.name" colspan="2"></th>
+                            <th style="text-align: right;">
                                 <button @click.stop="$dispatch('delete-list', list.id); removeList(list.id)">-</button>
-                            </td>
+                            </th>
                         </tr>
-                    </template>
-
-                </tbody>
-            </table>
-        </div>
-        <div x-data="TaskVM" x-show="$store.activeView === 'tasks'" x-transition @delete-list.window="removeTasksByListId($event.detail)">
-            <div class="flex-container">
-                <input x-model="newTask" @keyup.enter="addTask" type="text" id="newTaskInput"/>
-                <button @click="addTask">+</button>
-                <button @click="$store.activeView = 'lists'" class="right-aligned"><-</button>
-            </div>
-            <table>
-                <tbody>
-                    <template x-for="(task, index) in currentTasks" :key="index">
-                        <tr @click="toggleTask(index)">
-                            <!-- <td x-text="index"></td> -->
+                    </thead>
+                    <tbody x-data="TaskVM" x-show="$store.currentList === list.id" x-transition>
+                        <tr>
                             <td>
-                                <a x-text="task.name"></a>
+                                <input x-model="newTask" @keyup.enter="addTask" type="text" id="newTaskInput" />
                             </td>
-                            <!-- <td x-text="list.id"></td> -->
                             <td style="text-align: right;">
-                                <button @click="removeTask(task.id)">-</button>
+                                <button @click="addTask">+</button>
                             </td>
                         </tr>
-                    </template>
-                </tbody>
-            </table>
+                        <template x-for="(task, index) in currentTasks" :key="index">
+                            <tr @click="toggleTask(index)">
+                                <td>
+                                    <a x-text="task.name"></a>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button @click="removeTask(task.id)">-</button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
         </div>
     </div>
 </body>
