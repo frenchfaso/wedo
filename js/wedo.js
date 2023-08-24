@@ -1,6 +1,5 @@
-const db = Gun(['http://raspberrypi.local:8765/gun']); // 'https://gun-manhattan.herokuapp.com/gun'
-
 document.addEventListener('alpine:init', () => {
+    const db = Gun(['http://raspberrypi.local:8765/gun']); // 'https://gun-manhattan.herokuapp.com/gun'
 
     Alpine.store('activeView', 'lists');
 
@@ -40,12 +39,21 @@ document.addEventListener('alpine:init', () => {
             db.get('lists').get(id).put(null)
         },
         selectList(id) {
-            if(Alpine.store('currentList') === id){
+            if (Alpine.store('currentList') === id) {
                 Alpine.store('currentList', '')
             }
-            else{
+            else {
                 Alpine.store('currentList', id)
             }
+        },
+        addTask(listId, task){
+            db.get(listId+'/tasks/').set({
+                name: task,
+                done: false
+            })
+        },
+        getTasks(listId){
+            return ['task 1', 'task 2', 'task 3']
         }
     }));
 
@@ -54,7 +62,7 @@ document.addEventListener('alpine:init', () => {
         taskItem: {},
         tasks: [],
 
-        addTask() {
+        addTaskOld() {
             let item = this.newTask.trim()
             if (item !== '') {
                 this.tasks.push({

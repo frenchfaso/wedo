@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="css/sakura.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/sakura-dark.css" type="text/css" media="screen and (prefers-color-scheme: dark)">
     <script defer src="js/gun.min.js"></script>
-    <script defer src="js/unset.js"></script>
     <script defer src="js/wedo.js"></script>
     <script defer src="js/cdn.min.js"></script>
     <title>WeDo ❤️</title>
@@ -55,22 +54,22 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody x-data="TaskVM" x-show="$store.currentList === list.id" x-transition>
+                    <tbody x-show="$store.currentList === list.id" x-transition>
                         <tr>
                             <td>
-                                <input x-model="newTask" @keyup.enter="addTask" type="text" id="newTaskInput" />
+                                <input x-ref="newTask" @keyup.enter="addTask(list.it, $refs.newTask)" type="text" />
                             </td>
                             <td style="text-align: right;">
-                                <button @click="addTask">+</button>
+                                <button @click="addTask(list.id, $refs.newTask)">+</button>
                             </td>
                         </tr>
-                        <template x-for="(task, index) in currentTasks" :key="index">
+                        <template x-for="(task, index) in getTasks" :key="index">
                             <tr @click="toggleTask(index)">
                                 <td>
-                                    <a x-text="task.name"></a>
+                                    <a x-text="task"></a>
                                 </td>
                                 <td style="text-align: right;">
-                                    <button @click="removeTask(task.id)">-</button>
+                                    <button @click="removeTask(task)">-</button>
                                 </td>
                             </tr>
                         </template>
