@@ -4,7 +4,7 @@
   "description": "The ToDo App that syncs heart",
   "main": "wedo.js",
   "scripts": {
-    "build": "shx cp node_modules/alpinejs/dist/cdn.min.js js/ && cp node_modules/localforage/dist/localforage.min.js js/ && cp node_modules/peerjs/dist/peerjs.min.js js/ && cp node_modules/gun/gun.min.js js/ && cp node_modules/gun/lib/unset.js js/",
+    "build": "shx cp node_modules/alpinejs/dist/cdn.min.js js/ && cp node_modules/localforage/dist/localforage.min.js js/ && cp node_modules/peerjs/dist/peerjs.min.js js/ && cp node_modules/gun/gun.min.js js/",
     "start": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
