@@ -13,7 +13,8 @@ document.addEventListener('alpine:init', () => {
                     if (!this.lists.some(el => el.id === id)) {
                         this.lists.push({
                             id: id,
-                            name: list //list.name
+                            date: list.date,
+                            name: list.name
                         })
                     }
                 }
@@ -23,14 +24,14 @@ document.addEventListener('alpine:init', () => {
 
             });
         },
-
         addList() {
-            let name = this.newList.trim()
-            if (name !== '') {
-                db.get('lists').set(name)
-                // db.get('lists').set({
-                //     name: name
-                // })
+            let list = this.newList.trim()
+            if (list !== '') {
+                // db.get('lists').set(name)
+                db.get('lists').set({
+                    date: Date.now(),
+                    name: list
+                })
                 this.newList = ''
             }
         },
@@ -45,32 +46,42 @@ document.addEventListener('alpine:init', () => {
             else {
                 Alpine.store('currentList', id)
             }
+            // console.log(this.lists)
         },
-        addTask(listId, task){
-            db.get(listId+'/tasks/').set({
-                name: task,
-                done: false
-            })
-        },
-        getTasks(listId){
-            return ['task 1', 'task 2', 'task 3']
-        }
     }));
 
-    Alpine.data('TaskVM', () => ({
+    Alpine.data('TaskVM', (listId) => ({
         newTask: '',
-        taskItem: {},
         tasks: [],
 
-        addTaskOld() {
-            let item = this.newTask.trim()
-            if (item !== '') {
-                this.tasks.push({
-                    id: Date.now(),
-                    listId: Alpine.store('currentList'),
-                    name: item,
+        init() {
+            // console.log(listId)
+            db.get(listId).get('tasks').map().on((task, id) => {
+                // console.log(task)
+                if (task) {
+                    if (!this.tasks.some(el => el.id === id)) {
+                        this.tasks.push({
+                            id: id,
+                            date: task.date,
+                            name: task.name,
+                            done: task.done
+                        })
+                    }
+                }
+                else {
+                    this.tasks = this.tasks.filter(item => item.id !== id)
+                }
+
+            });
+        },
+        addTask() {
+            let task = this.newTask.trim()
+            if (task !== '') {
+                db.get('lists').get(Alpine.store('currentList')).get('tasks').set({
+                    date: Date.now(),
+                    name: this.newTask,
                     done: false
-                });
+                })
                 this.newTask = ''
             }
         },

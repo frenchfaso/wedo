@@ -55,22 +55,25 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody x-show="$store.currentList === list.id" x-transition>
+                    <tbody x-data="TaskVM(list.id)" x-show="$store.currentList === list.id" x-transition>
                         <tr>
                             <td>
-                                <input x-ref="newTask" @keyup.enter="addTask(list.it, $refs.newTask)" type="text" />
+                                <input x-model="newTask" @keyup.enter="addTask" type="text" />
                             </td>
                             <td style="text-align: right;">
-                                <button @click="addTask(list.id, $refs.newTask)">+</button>
+                                <button @click="addTask">+</button>
                             </td>
                         </tr>
-                        <template x-for="(task, index) in getTasks" :key="index">
+                        <template x-for="(task, index) in tasks" :key="index">
                             <tr @click="toggleTask(index)">
                                 <td>
-                                    <a x-text="task"></a>
+                                    <input x-model="task.done" type="checkbox" />
+                                </td>
+                                <td>
+                                    <a x-text="task.name"></a>
                                 </td>
                                 <td style="text-align: right;">
-                                    <button @click="removeTask(task)">-</button>
+                                    <button @click="removeTask(task.id)">-</button>
                                 </td>
                             </tr>
                         </template>
