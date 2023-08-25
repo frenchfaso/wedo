@@ -1,5 +1,5 @@
 document.addEventListener('alpine:init', () => {
-    const db = Gun(['http://raspberrypi.local:8765/gun']); // 'https://gun-manhattan.herokuapp.com/gun'
+    const db = Gun(['http://raspberrypi.local:8765/gun']); // 'http://raspberrypi.local:8765/gun' 'https://gun-manhattan.herokuapp.com/gun' 'https://unfrightened-earwig-7571.dataplicity.io/gun'
 
     Alpine.store('activeView', 'lists');
 

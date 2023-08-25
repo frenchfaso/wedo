@@ -11,7 +11,7 @@
     <script defer src="js/gun.min.js"></script>
     <script defer src="js/wedo.js"></script>
     <script defer src="js/cdn.min.js"></script>
-    <title>WeDo ❤️</title>
+    <title>WeDo</title>
     <style>
         tr:hover {
             /* filter: invert(); */
@@ -56,9 +56,9 @@
                         </tr>
                     </thead>
                     <tbody x-data="TaskVM(list.id)" x-show="$store.currentList === list.id" x-transition>
-                        <tr>
+                        <tr x-id="['newtaskInput']">
                             <td>
-                                <input x-model="newTask" @keyup.enter="addTask" type="text" />
+                                <input x-model="newTask" @keyup.enter="addTask" type="text" :id="$id('newtaskInput')"/>
                             </td>
                             <td style="text-align: right;">
                                 <button @click="addTask">+</button>
