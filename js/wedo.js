@@ -36,7 +36,7 @@ document.addEventListener('alpine:init', () => {
             }
         },
         removeList(id) {
-            console.log('remove:', id)
+            // console.log('remove:', id)
             db.get('lists').get(id).put(null)
         },
         selectList(id) {
@@ -86,7 +86,9 @@ document.addEventListener('alpine:init', () => {
             }
         },
         removeTask(id) {
-            this.tasks = this.tasks.filter(item => item.id !== id)
+            // this.tasks = this.tasks.filter(item => item.id !== id)
+            db.get('lists').get(Alpine.store('currentList')).get('tasks').get(id).put(null)
+            db.get(id).put(null)
         },
         removeTasksByListId(listId) {
             this.tasks = this.tasks.filter(item => item.listId !== listId)

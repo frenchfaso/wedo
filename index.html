@@ -66,8 +66,8 @@
                         </tr>
                         <template x-for="(task, index) in tasks" :key="index">
                             <tr @click="toggleTask(index)">
-                                <td>
-                                    <input x-model="task.done" type="checkbox" />
+                                <td x-id="['newTaskCheckBox']">
+                                    <input x-model="task.done" type="checkbox" :id="$id('newTaskCheckBox')"/>
                                 </td>
                                 <td>
                                     <a x-text="task.name"></a>
