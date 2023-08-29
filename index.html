@@ -49,7 +49,7 @@
                 <table>
                     <thead>
                         <tr @click="selectList(list.id)">
-                            <th x-text="list.name" colspan="2"></th>
+                            <th style="text-transform: uppercase;" x-text="list.name" colspan="2"></th>
                             <th style="text-align: right;">
                                 <button @click.stop="$dispatch('delete-list', list.id); removeList(list.id)">-</button>
                             </th>
@@ -66,7 +66,7 @@
                         </tr>
                         <template x-for="(task, index) in tasks" :key="index">
                             <tr @click="toggleTask(index)">
-                                <td x-id="['newTaskCheckBox']">
+                                <td x-show="false" x-id="['newTaskCheckBox']">
                                     <input x-model="task.done" type="checkbox" :id="$id('newTaskCheckBox')"/>
                                 </td>
                                 <td>

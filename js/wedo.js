@@ -1,5 +1,5 @@
 document.addEventListener('alpine:init', () => {
-    const db = Gun(['http://raspberrypi.local:8765/gun']); // 'http://raspberrypi.local:8765/gun' 'https://gun-manhattan.herokuapp.com/gun' 'https://unfrightened-earwig-7571.dataplicity.io/gun'
+    const db = Gun(['http://raspberrypi.local:8765/gun']).get('wedo'); // 'http://raspberrypi.local:8765/gun' 'https://gun-manhattan.herokuapp.com/gun'
 
     Alpine.store('activeView', 'lists');
 
@@ -56,7 +56,7 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             // console.log(listId)
-            db.get(listId).get('tasks').map().on((task, id) => {
+            db.get('lists').get(listId).get('tasks').map().on((task, id) => {
                 // console.log(task)
                 if (task) {
                     if (!this.tasks.some(el => el.id === id)) {
@@ -88,7 +88,7 @@ document.addEventListener('alpine:init', () => {
         removeTask(id) {
             // this.tasks = this.tasks.filter(item => item.id !== id)
             db.get('lists').get(Alpine.store('currentList')).get('tasks').get(id).put(null)
-            db.get(id).put(null)
+            // db.get(id).put(null)
         },
         removeTasksByListId(listId) {
             this.tasks = this.tasks.filter(item => item.listId !== listId)
