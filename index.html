@@ -42,7 +42,7 @@
     <h4>The ToDo App that Syncs ❤️</h4>
     <hr>
     <div>
-        <div x-data="ListVM" @delete-list.window="removeTasksByListId($event.detail)">
+        <div x-data="ListVM">
             <input x-model="newList" @keyup.enter="addList" type="text" placeholder="My List" id="newLabelInput" />
             <button @click="addList">+</button>
             <template x-for="(list, index) in lists" :key="index">

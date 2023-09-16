@@ -27,7 +27,6 @@ document.addEventListener('alpine:init', () => {
         addList() {
             let list = this.newList.trim()
             if (list !== '') {
-                // db.get('lists').set(name)
                 db.get('lists').set({
                     date: Date.now(),
                     name: list
@@ -36,7 +35,6 @@ document.addEventListener('alpine:init', () => {
             }
         },
         removeList(id) {
-            // console.log('remove:', id)
             db.get('lists').get(id).put(null)
         },
         selectList(id) {
@@ -46,7 +44,6 @@ document.addEventListener('alpine:init', () => {
             else {
                 Alpine.store('currentList', id)
             }
-            // console.log(this.lists)
         },
     }));
 
