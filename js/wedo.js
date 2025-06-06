@@ -93,12 +93,7 @@ document.addEventListener('alpine:init', () => {
         toggleTask(index) {
             let task = this.tasks[index]
             task.done = !task.done
-            db.get('lists')
-              .get(Alpine.store('currentList'))
-              .get('tasks')
-              .get(task.id)
-              .get('done')
-              .put(task.done)
+            db.get('lists').get(Alpine.store('currentList')).get('tasks').get(task.id).put({ done: task.done })
         },
         get currentTasks() {
             return this.tasks.filter(task => task.listId === Alpine.store('currentList'))
